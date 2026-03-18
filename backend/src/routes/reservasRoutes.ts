@@ -1,23 +1,15 @@
 import { Router } from "express";
 import {
-    listarTutores,
-    crearPerfilTutor,
-    obtenerTutor,
-} from "../controllers/tutoresController";
-import { verificarToken, verificarRol } from "../middlewares/authMiddleware";
-import { validate } from "../validators/validate";
-import { crearTutorSchema } from "../validators/schemas";
+    cancelarReserva,
+    crearReserva,
+    listarMisReservas,
+} from "../controllers/reservasController";
+import { verificarToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/", verificarToken, listarTutores);
-router.get("/:id", verificarToken, obtenerTutor);
-router.post(
-    "/",
-    verificarToken,
-    verificarRol("tutor"),
-    validate(crearTutorSchema),
-    crearPerfilTutor,
-);
+router.post("/", verificarToken, crearReserva);
+router.get("/mis-reservas", verificarToken, listarMisReservas);
+router.patch("/:id/cancelar", verificarToken, cancelarReserva);
 
 export default router;
